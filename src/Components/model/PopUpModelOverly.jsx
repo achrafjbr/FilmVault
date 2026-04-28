@@ -1,10 +1,10 @@
-import PopUpModel from "./PopUpModel";
-
-function PopUpModelOverly() {
+function PopUpModelOverly({ children, showModel }) {
   return (
-    <div className="relative min-w-screen min-h-screen inset-0 bg-slate-400">
-      <PopUpModel />
-    </div>
+    showModel && (
+      <div className="absolute inset-0 bg-black/50 flex z-20 justify-center items-center ">
+        {children}
+      </div>
+    )
   );
 }
 
