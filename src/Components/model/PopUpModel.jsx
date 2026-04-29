@@ -1,9 +1,144 @@
-import { CircleX } from "lucide-react";
+import { CircleX, DiamondPlus } from "lucide-react";
+import EdgesMarginWraper from "../dimonsions/EdgesMarginWraper";
+import Divider from "../dimonsions/Divider";
+import Text from "../Text";
+import { useState } from "react";
+import InputField from "../movies/inputField";
+import Button from "../Button";
 
 function PopUpModel({ handleShowModel }) {
+  const [movie, setMovie] = useState({
+    title: "",
+    description: "",
+    annee_de_sortie: 0,
+    genre: "",
+    realisateur: "",
+    acteurs_principaux: [],
+    image: "",
+    trailer: "",
+    note: 1,
+  });
+
+  const handleMovieAddition = (e) => {
+    const key = e.target.name;
+    const value = e.target.value;
+    console.log("key", key);
+    console.log("value", value);
+    setMovie({ ...movie, [key]: value });
+  };
+
+  const submitMovieHandler = (e) => {
+    e.preventDefault();
+  };
+
   return (
-    <div className="absolute bg-purple-300 w-[60%] h-[70%] rounded-2xl shadow-2xl overflow-auto p-2 ">
-      Show data of PopUpModel HERE
+    <div className="fixed z-40 bg-purple-300 w-[60%] h-[80%] top-10 rounded-2xl shadow-2xl overflow-auto p-2 ">
+      <Divider mt="mt-4" />
+      <EdgesMarginWraper mLeft={"ml-3"} mRigth={"ml-3"}>
+        <Text text={"Add Movie"} style={"font-bold"} />
+        <Divider mt="mt-6" />
+        {/* title */}
+        <InputField
+          type={"text"}
+          title={"title"}
+          style={"p-4 border border-white outline-none  rounded  "}
+          value={movie.title}
+          onChange={(e) => handleMovieAddition(e)}
+        />
+
+        {/* description */}
+        <InputField
+          type={"text"}
+          title={"description"}
+          style={"p-4 border border-white outline-none  rounded  "}
+          value={movie.description}
+          onChange={(e) => handleMovieAddition(e)}
+        />
+
+        {/* annee_de_sortie */}
+        <InputField
+          type={"number"}
+          title={"annee_de_sortie"}
+          style={"p-4 border border-white outline-none  rounded  "}
+          value={movie.annee_de_sortie}
+          onChange={(e) => handleMovieAddition(e)}
+        />
+
+        {/* genre */}
+        <InputField
+          type={"text"}
+          title={"genre"}
+          style={"p-4 border border-white outline-none  rounded  "}
+          value={movie.genre}
+          onChange={(e) => handleMovieAddition(e)}
+        />
+
+        {/* realisateur */}
+        <InputField
+          type={"text"}
+          title={"realisateur"}
+          style={"p-4 border border-white outline-none  rounded  "}
+          value={movie.realisateur}
+          onChange={(e) => handleMovieAddition(e)}
+        />
+
+        {/* acteurs_principaux */}
+        <InputField
+          type={"text"}
+          title={"acteurs_principaux"}
+          style={"p-4 border border-white outline-none  rounded  "}
+          value={movie.acteurs_principaux}
+          onChange={(e) => handleMovieAddition(e)}
+        />
+
+        {/* image */}
+        <InputField
+          type={"text"}
+          title={"image"}
+          style={"p-4 border border-white outline-none  rounded  "}
+          value={movie.image}
+          onChange={(e) => handleMovieAddition(e)}
+        />
+        {/* trailer */}
+        <InputField
+          type={"text"}
+          title={"trailer"}
+          style={"p-4 border border-white outline-none  rounded  "}
+          value={movie.trailer}
+          onChange={(e) => handleMovieAddition(e)}
+        />
+
+        {/* note */}
+        <InputField
+          type={"range"}
+          title={"note"}
+          style={"p-4 border border-white outline-none  rounded  "}
+          value={movie.note}
+          onChange={(e) => handleMovieAddition(e)}
+        />
+        <div className="flex justify-around ">
+          <Button
+            onClick={(e) => submitMovieHandler(e)}
+            style={
+              "flex gap-2 justify-center items-center bg-[#c27aff] py-2 px-4 rounded cursor-pointer"
+            }
+          >
+            <DiamondPlus />
+            <Text text="Add Movie" style={"text-white"} />
+          </Button>
+
+          {/* // cancal btn */}
+          <Button
+            onClick={handleShowModel}
+            style={
+              "flex justify-center items-center bg-[#c27aff] py-2 px-4 rounded cursor-pointer"
+            }
+          >
+            <Text text="Cancel" style={"text-white"} />
+          </Button>
+        </div>
+      </EdgesMarginWraper>
+
       <div
         onClick={handleShowModel}
         className="absolute right-0 top-0 p-1 cursor-pointer"
