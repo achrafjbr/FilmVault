@@ -45,7 +45,11 @@ function PopUpModel({ handleShowModel, submitMovieHandler, type }) {
 
   return (
     <div
-      className={`${saveMovie == true ? "flex justify-center items-center fixed z-40 bg-purple-300 w-[60%] h-[80%] top-10 rounded-2xl shadow-2xl overflow-auto p-2" : "fixed z-40 bg-purple-300 w-[60%] h-[80%] top-10 rounded-2xl shadow-2xl overflow-auto p-2"}`}
+      className={`${
+        saveMovie == true
+          ? "flex justify-center items-center fixed z-40 bg-purple-300 w-[60%] h-[80%] top-10 rounded-2xl shadow-2xl overflow-auto p-2"
+          : "fixed z-40 bg-purple-300 w-[60%] h-[80%] top-10 rounded-2xl shadow-2xl overflow-auto p-2"
+      }`}
     >
       <Divider mt="mt-4" />
 
