@@ -1,32 +1,37 @@
+import movies from "../config/dummyMovies";
 import { MOVIES } from "./constants";
 
-const saveAllMovies = (movies) => {
+const saveAllMovies = async () => {
   try {
-    localStorage.setItem(MOVIES, JSON.stringify(movies));
+    await localStorage.setItem(MOVIES, JSON.stringify(movies));
+    console.log(await getMovies());
   } catch (error) {
     console.error("Error saving movies:", error);
   }
 };
-const getMovies = async () =>
-  (await JSON.parse(localStorage.getItem(MOVIES))) || [];
 
-const createMovie = async (movie) => {
+const getMovies = () => {
+  const data = localStorage.getItem(MOVIES);
+  return data ? JSON.parse(data) : [];
+};
+
+const createMovie = (movie) => {
   const movies = getMovies();
   const newMovies = [...movies, movie];
-  await localStorage.setItem(MOVIES, JSON.stringify(newMovies));
+  localStorage.setItem(MOVIES, JSON.stringify(newMovies));
   return getMovies();
 };
 
-const deleteMovie = async (id) => {
+const deleteMovie = (id) => {
   const movies = getMovies().filter((movie) => movie.id != id);
-  return await createMovie(movies);
+  return createMovie(movies);
 };
 
-const updateMovie = async (movie) => {
+const updateMovie = (movie) => {
   const movies = getMovies().filter(
     (currentMovie) => currentMovie.id != movie.id,
   );
-  return await createMovie(movies);
+  return createMovie(movies);
 };
 
 export { createMovie, getMovies, deleteMovie, updateMovie, saveAllMovies };

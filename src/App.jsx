@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import NavBar from "./Components/NavBar";
 import PopUpModelOverly from "./Components/model/PopUpModelOverly";
 import PopUpModel from "./Components/model/PopUpModel";
@@ -12,27 +12,52 @@ import TopMovie from "./Components/topMovies/TopMovie";
 import PrincipleMovie from "./Components/topMovies/PrincipleMovie";
 import { getMoviesByGenre, getTopThreeRating } from "./utilities/utility";
 import Text from "./Components/Text";
-import movies from "./config/dummyMovies";
 import MoviesGenres from "./Components/moviesGenre/MoviesGenres";
+import { createMovie, getMovies } from "./utilities/moviesCrud";
 
 function App() {
-  const [showModel, setShowModel] = useState(false);
-
-  const topThreeRatedMovies = getTopThreeRating();
-
-  const handleShowModel = () => {
-    console.log("showModel", showModel);
-    setShowModel(!showModel);
-  };
-
+  //saveAllMovies();
+  const [movies, setMovies] = useState([]);
+  const [model, setShowModel] = useState({
+    isPoped: false,
+    type: "",
+  });
   const [activeId, setActiveId] = useState(null);
   const [rangeValue, setRangeValue] = useState(1);
   const [selectGenre, setSelectedGenre] = useState("All genres");
 
-  const moviesByGender = getMoviesByGenre(selectGenre);
+  useEffect(() => {
+    const loadMoviesData = () => {
+      const movieData = getMovies();
+      setMovies(movieData);
+    };
+    loadMoviesData();
+  }, []);
+
+  const topThreeRatedMovies = useMemo(
+    () => getTopThreeRating(movies),
+    [movies],
+  );
+
+  const moviesByGender = useMemo(
+    () => getMoviesByGenre(movies, selectGenre),
+    [movies, selectGenre],
+  );
+
+  const handleShowModel = (type) => {
+    setShowModel({ ...model, isPoped: !model.isPoped, type: type });
+    console.log(model);
+  };
+
+  const submitMovieHandler = (e, movie) => {
+    e.preventDefault();
+    createMovie(movie);
+
+    setMovies([...movies, movie]);
+  };
 
   return (
-    <div className=" relative min-h-screen ">
+    <div className="relative min-h-screen">
       <div>
         <NavBar handleShowModel={handleShowModel} />
         <Divider mb="1.5" />
@@ -41,17 +66,22 @@ function App() {
           <Divider mt="3" />
 
           <div className="grid grid-cols-4 gap-2 ">
-            <PrincipleMovie {...topThreeRatedMovies[0]} />
-
+            {topThreeRatedMovies && (
+              <PrincipleMovie
+                {...topThreeRatedMovies[0]}
+                handleShowModel={handleShowModel}
+              />
+            )}
             <div className="flex flex-col gap-2 ">
-              {topThreeRatedMovies.map((movie) => (
-                <TopMovie
-                  key={movie.id}
-                  {...movie}
-                  activeId={activeId}
-                  setActiveId={setActiveId}
-                />
-              ))}
+              {topThreeRatedMovies &&
+                topThreeRatedMovies.map((movie) => (
+                  <TopMovie
+                    key={movie.id}
+                    {...movie}
+                    activeId={activeId}
+                    setActiveId={setActiveId}
+                  />
+                ))}
             </div>
           </div>
           <Divider mt="mt-6" />
@@ -77,12 +107,11 @@ function App() {
                   className="w-full p-2 rounded-2xl ring-2 ring-indigo-500 cursor-pointer transition ease-in duration-200"
                 >
                   <option>All genres</option>
-                  {[...new Set(movies)].map(({ id, genre }) => (
+                  {[...new Set(movies.map((m) => m.genre))].map((genre) => (
                     <option
                       className="bg-[#02c0ff] p-1.5"
-                      id={id}
                       value={genre}
-                      key={id}
+                      key={genre}
                     >
                       {genre}
                     </option>
@@ -130,8 +159,13 @@ function App() {
           <Divider mb="mb-6" />
         </EdgesMarginWraper>
       </div>
-      <PopUpModelOverly showModel={showModel}>
-        <PopUpModel handleShowModel={handleShowModel} />
+
+      <PopUpModelOverly model={model}>
+        <PopUpModel
+          handleShowModel={handleShowModel}
+          submitMovieHandler={submitMovieHandler}
+          type={model.type}
+        />
       </PopUpModelOverly>
     </div>
   );

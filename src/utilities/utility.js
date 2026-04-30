@@ -1,6 +1,5 @@
-import movies from "../config/dummyMovies";
-
-const getTopThreeRating = () => {
+const getTopThreeRating = (moviesList) => {
+  const movies = [...moviesList];
   const topRatedMoviesList = [];
   for (let i = 0; i < movies.length - 1; i++) {
     let topRatedMovie = i;
@@ -18,12 +17,10 @@ const getTopThreeRating = () => {
       return topRatedMoviesList;
     }
   }
-  movies.filter((movie) => {
-    movie.note == 5;
-  });
+  //movies.filter((movie) => {movie.note == 5;});
 };
 
-const getMoviesByGenre = (genre) => {
+const getMoviesByGenre = (movies, genre) => {
   return movies.filter((movie) => movie.genre === genre);
 };
 
