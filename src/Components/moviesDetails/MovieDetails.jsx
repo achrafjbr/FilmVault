@@ -1,12 +1,22 @@
 import { SquarePen, Star, Trash } from "lucide-react";
 import Button from "../Button";
-import { deleteMovie } from "../../utilities/moviesCrud";
 import Divider from "../dimonsions/Divider";
 import Text from "../Text";
+import { useEffect, useState } from "react";
+import SpinnerBaseColorPinkFourth from "../SpinnerBaseColorPinkFourth";
+import { ModelType } from "../../utilities/modelPopUpModel";
 
-function MovieDetails({model}) {
+function MovieDetails({ model, deletingMovie, handleShowModel }) {
+  const [processMovie, setProcessMovie] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setProcessMovie(false);
+    }, 2000);
+  }, [processMovie]);
+
   return (
-    <div>
+    <div className="relative ">
       <div>
         <img
           className="w-full h-100 object-cover rounded"
@@ -61,10 +71,10 @@ function MovieDetails({model}) {
       </div>
       <Divider mt="mt-6" />
       <div className="flex justify-around ">
+        {/* update movie btns */}
         <Button
-          onClick={(e) => {
-            //   submitMovieHandler(e, movie);
-            //  setSaveMovie(true);
+          onClick={() => {
+             handleShowModel(ModelType.UPDATE);
             console.log("Movie id", model.movie.id);
           }}
           style={
@@ -75,20 +85,26 @@ function MovieDetails({model}) {
           <Text text="Edit" style={"text-white"} />
         </Button>
 
-        {/* // delete btn */}
+        {/* // delete movie btn */}
         <Button
           onClick={() => {
-            deleteMovie(model.movie.id);
+            deletingMovie(model.movie.id);
+            setProcessMovie(true);
           }}
           style={
             "flex gap-2 justify-center items-center bg-red-600 py-2 px-4 rounded cursor-pointer"
           }
         >
           <Trash color="white" />
-          <Text text="Cancel" style={"text-white "} />
+          <Text text="Delete" style={"text-white "} />
         </Button>
       </div>
       <Divider mt="mt-5" />
+      {processMovie && (
+        <div className="absolute z-50 bg-black/30 flex justify-center items-center">
+          <SpinnerBaseColorPinkFourth />
+        </div>
+      )}
     </div>
   );
 }

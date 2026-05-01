@@ -10,7 +10,13 @@ import { ModelType } from "../../utilities/modelPopUpModel";
 import { deleteMovie } from "../../utilities/moviesCrud";
 import MovieDetails from "../moviesDetails/MovieDetails";
 
-function PopUpModel({ handleShowModel, submitMovieHandler, model }) {
+function PopUpModel({
+  handleShowModel,
+  submitMovieHandler,
+  deletingMovie,
+  updatingMovie,
+  model,
+}) {
   console.log("PopUpModel", model);
   const [movie, setMovie] = useState({
     titre: "",
@@ -196,7 +202,11 @@ function PopUpModel({ handleShowModel, submitMovieHandler, model }) {
               <h3>Loading...</h3>
             </div>
           ) : (
-           <MovieDetails model={model}/>
+            <MovieDetails
+              model={model}
+              deletingMovie={deletingMovie}
+              handleShowModel={handleShowModel}
+            />
           )}
 
           {saveMovie ? (
@@ -212,7 +222,6 @@ function PopUpModel({ handleShowModel, submitMovieHandler, model }) {
             </div>
           )}
         </div>
-        
       ) : (
         <></>
       )}

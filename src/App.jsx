@@ -13,7 +13,14 @@ import PrincipleMovie from "./Components/topMovies/PrincipleMovie";
 import { getMoviesByGenre, getTopThreeRating } from "./utilities/utility";
 import Text from "./Components/Text";
 import MoviesGenres from "./Components/moviesGenre/MoviesGenres";
-import { createMovie, getMovies, saveAllMovies } from "./utilities/moviesCrud";
+import {
+  createMovie,
+  deleteMovie,
+  getMovies,
+  saveAllMovies,
+  updateMovie,
+} from "./utilities/moviesCrud";
+import { ModelType } from "./utilities/modelPopUpModel";
 
 function App() {
   //saveAllMovies();
@@ -27,14 +34,6 @@ function App() {
   const [rangeValue, setRangeValue] = useState(1);
   const [selectGenre, setSelectedGenre] = useState("All genres");
 
-  useEffect(() => {
-    const loadMoviesData = () => {
-      const movieData = getMovies();
-      setMovies(movieData);
-    };
-    loadMoviesData();
-  }, []);
-
   const topThreeRatedMovies = useMemo(
     () => getTopThreeRating(movies),
     [movies],
@@ -46,21 +45,44 @@ function App() {
   );
 
   const handleShowModel = (type, movie) => {
-    setShowModel({
-      ...model,
-      isPoped: !model.isPoped,
-      type: type,
-      movie: movie,
-    });
+    if (type === ModelType.UPDATE) {
+      setShowModel({
+        ...model,
+        isPoped: true,
+        type: ModelType.UPDATE,
+      });
+    } else {
+      setShowModel({
+        ...model,
+        isPoped: !model.isPoped,
+        type: type,
+        movie: movie,
+      });
+    }
   };
-
-  const zIndex = model.isPoped ? "z-20" : "z-40";
 
   const submitMovieHandler = (e, movie) => {
     e.preventDefault();
     createMovie(movie);
-
     setMovies([...movies, movie]);
+  };
+
+  useEffect(() => {
+    const loadMoviesData = () => {
+      const movieData = getMovies();
+      setMovies(movieData);
+    };
+    loadMoviesData();
+  }, []);
+
+  const deletingMovie = (movieId) => {
+    const newMovies = movies.filter((movie) => movie.id != movieId);
+    setMovies(newMovies);
+    deleteMovie(movieId);
+  };
+
+  const updatingMovie = (movie) => {
+    updateMovie(movie);
   };
 
   return (
@@ -178,6 +200,8 @@ function App() {
         <PopUpModel
           handleShowModel={handleShowModel}
           submitMovieHandler={submitMovieHandler}
+          deletingMovie={deletingMovie}
+          updatingMovie={updatingMovie}
           model={model}
         />
       </PopUpModelOverly>
