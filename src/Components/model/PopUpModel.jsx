@@ -50,8 +50,8 @@ function PopUpModel({ handleShowModel, submitMovieHandler, model }) {
     <div
       className={`${
         saveMovie == true
-          ? "flex justify-center items-center fixed z-80 bg-purple-300 w-[60%] h-[80%] top-10 rounded-2xl shadow-2xl overflow-auto p-2"
-          : "fixed z-40 bg-purple-300 w-[60%] h-[80%] top-10 rounded-2xl shadow-2xl overflow-auto p-2"
+          ? "flex justify-center items-center fixed z-999 bg-purple-300 w-[60%] h-[80%] top-10 rounded-2xl shadow-2xl overflow-auto p-2"
+          : "fixed z-999 bg-purple-300 w-[60%] h-[80%] top-10 rounded-2xl shadow-2xl overflow-auto p-2"
       }`}
     >
       {model.type === ModelType.ADD ? (

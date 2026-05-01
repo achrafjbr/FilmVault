@@ -46,14 +46,15 @@ function App() {
   );
 
   const handleShowModel = (type, movie) => {
-    console.log('cMOvie', movie)
     setShowModel({
       ...model,
       isPoped: !model.isPoped,
       type: type,
-     movie:movie
+      movie: movie,
     });
   };
+
+  const zIndex = model.isPoped ? "z-20" : "z-40";
 
   const submitMovieHandler = (e, movie) => {
     e.preventDefault();
@@ -74,6 +75,7 @@ function App() {
           <div className="grid grid-cols-4 gap-2 ">
             {topThreeRatedMovies && (
               <PrincipleMovie
+                isPopUp={model.isPoped}
                 {...topThreeRatedMovies[0]}
                 handleShowModel={handleShowModel}
               />
@@ -82,6 +84,7 @@ function App() {
               {topThreeRatedMovies &&
                 topThreeRatedMovies.map((movie) => (
                   <TopMovie
+                    isPopUp={model.isPoped}
                     key={movie.id}
                     {...movie}
                     activeId={activeId}
@@ -151,13 +154,16 @@ function App() {
           <Divider mt="mt-6" />
           {selectGenre == "All genres" && rangeValue == 1 ? (
             <MoviesGenres
-            handleShowModel={handleShowModel}
+              isPopUp={model.isPoped}
+              handleShowModel={handleShowModel}
               movies={movies}
               activeId={activeId}
               setActiveId={setActiveId}
             />
           ) : (
             <MoviesGenres
+              isPopUp={model.isPoped}
+              handleShowModel={handleShowModel}
               movies={moviesByGender}
               activeId={activeId}
               setActiveId={setActiveId}

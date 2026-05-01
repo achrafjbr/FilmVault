@@ -18,6 +18,7 @@ function TopMovie({
   activeId,
   setActiveId,
   handleShowModel,
+  isPopUp,
 }) {
   return (
     <>
@@ -55,7 +56,7 @@ function TopMovie({
           </div>
         </div>
 
-        <div className="absolute z-50 p-2 top-0 right-0">
+        <div className={`absolute p-2 top-0 right-0 ${isPopUp? 'z-20': "z-50" }`}>
           <Button
             onClick={() => {
               handleShowModel(ModelType.ALL, {

@@ -18,6 +18,7 @@ function PrincipleMovie({
   trailer,
   note,
   handleShowModel,
+  isPopUp,
 }) {
   const [showTrailer, setShowTrailer] = useState(false);
 
@@ -78,7 +79,9 @@ function PrincipleMovie({
         <Divider mb="mb-19" />
       </div>
 
-      <div className="absolute z-30 p-6 bottom-0.5 left-2.5">
+      <div
+        className={`absolute p-6 bottom-0.5 left-2.5 ${isPopUp ? " z-20" : " z-30"}`}
+      >
         <Button
           onClick={() => {
             handleShowModel(ModelType.ALL, {
