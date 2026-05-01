@@ -13,7 +13,7 @@ import PrincipleMovie from "./Components/topMovies/PrincipleMovie";
 import { getMoviesByGenre, getTopThreeRating } from "./utilities/utility";
 import Text from "./Components/Text";
 import MoviesGenres from "./Components/moviesGenre/MoviesGenres";
-import { createMovie, getMovies } from "./utilities/moviesCrud";
+import { createMovie, getMovies, saveAllMovies } from "./utilities/moviesCrud";
 
 function App() {
   //saveAllMovies();

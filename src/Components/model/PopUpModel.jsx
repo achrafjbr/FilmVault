@@ -3,7 +3,7 @@ import EdgesMarginWraper from "../dimonsions/EdgesMarginWraper";
 import Divider from "../dimonsions/Divider";
 import Text from "../Text";
 import { useEffect, useState } from "react";
-import InputField from "../movies/inputField";
+import InputField from '../movies/InputField';
 import Button from "../Button";
 import SpinnerBaseColorPinkFourth from "../SpinnerBaseColorPinkFourth";
 import { ModelType } from "../../utilities/modelPopUpModel";
