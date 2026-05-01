@@ -21,6 +21,7 @@ function App() {
   const [model, setShowModel] = useState({
     isPoped: false,
     type: "",
+    movie: {},
   });
   const [activeId, setActiveId] = useState(null);
   const [rangeValue, setRangeValue] = useState(1);
@@ -44,9 +45,14 @@ function App() {
     [movies, selectGenre],
   );
 
-  const handleShowModel = (type) => {
-    setShowModel({ ...model, isPoped: !model.isPoped, type: type });
-    console.log(model);
+  const handleShowModel = (type, movie) => {
+    console.log('cMOvie', movie)
+    setShowModel({
+      ...model,
+      isPoped: !model.isPoped,
+      type: type,
+     movie:movie
+    });
   };
 
   const submitMovieHandler = (e, movie) => {
@@ -80,6 +86,7 @@ function App() {
                     {...movie}
                     activeId={activeId}
                     setActiveId={setActiveId}
+                    handleShowModel={handleShowModel}
                   />
                 ))}
             </div>
@@ -144,6 +151,7 @@ function App() {
           <Divider mt="mt-6" />
           {selectGenre == "All genres" && rangeValue == 1 ? (
             <MoviesGenres
+            handleShowModel={handleShowModel}
               movies={movies}
               activeId={activeId}
               setActiveId={setActiveId}
@@ -164,7 +172,7 @@ function App() {
         <PopUpModel
           handleShowModel={handleShowModel}
           submitMovieHandler={submitMovieHandler}
-          type={model.type}
+          model={model}
         />
       </PopUpModelOverly>
     </div>

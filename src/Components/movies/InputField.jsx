@@ -7,7 +7,7 @@ function InputField({ onChange, title, style, value, type }) {
         {title}
       </label>
 
-      {type == "range" ? (
+      {type === "range" ? (
         <input
           className={style}
           type={type}

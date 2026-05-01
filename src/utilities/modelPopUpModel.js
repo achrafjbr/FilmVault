@@ -2,7 +2,7 @@ const ModelType = {
   UPDATE: "update",
   DELETE: "delete",
   ADD: "add",
-  ALL: "show",
+  ALL: "all",
 };
 
 export { ModelType };

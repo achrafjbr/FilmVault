@@ -7,6 +7,7 @@ import Button from "../Button";
 import { ModelType } from "../../utilities/modelPopUpModel";
 
 function PrincipleMovie({
+  id,
   titre,
   description,
   annee_de_sortie,
@@ -80,7 +81,18 @@ function PrincipleMovie({
       <div className="absolute z-30 p-6 bottom-0.5 left-2.5">
         <Button
           onClick={() => {
-            handleShowModel(ModelType.ALL);
+            handleShowModel(ModelType.ALL, {
+              id,
+              titre,
+              description,
+              annee_de_sortie,
+              genre,
+              realisateur,
+              acteurs_principaux,
+              image,
+              trailer,
+              note,
+            });
           }}
           style="cursor-pointer shadow bg-purple-400 flex p-2 justify-center items-center rounded-md"
         >

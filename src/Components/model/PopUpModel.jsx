@@ -1,14 +1,17 @@
-import { CircleX, DiamondPlus } from "lucide-react";
+import { CircleX, DiamondPlus, SquarePen, Star, Trash } from "lucide-react";
 import EdgesMarginWraper from "../dimonsions/EdgesMarginWraper";
 import Divider from "../dimonsions/Divider";
 import Text from "../Text";
 import { useEffect, useState } from "react";
-import InputField from '../movies/InputField';
+import InputField from "../movies/InputField";
 import Button from "../Button";
 import SpinnerBaseColorPinkFourth from "../SpinnerBaseColorPinkFourth";
 import { ModelType } from "../../utilities/modelPopUpModel";
+import { deleteMovie } from "../../utilities/moviesCrud";
+import MovieDetails from "../moviesDetails/MovieDetails";
 
-function PopUpModel({ handleShowModel, submitMovieHandler, type }) {
+function PopUpModel({ handleShowModel, submitMovieHandler, model }) {
+  console.log("PopUpModel", model);
   const [movie, setMovie] = useState({
     titre: "",
     description: "",
@@ -47,13 +50,11 @@ function PopUpModel({ handleShowModel, submitMovieHandler, type }) {
     <div
       className={`${
         saveMovie == true
-          ? "flex justify-center items-center fixed z-40 bg-purple-300 w-[60%] h-[80%] top-10 rounded-2xl shadow-2xl overflow-auto p-2"
+          ? "flex justify-center items-center fixed z-80 bg-purple-300 w-[60%] h-[80%] top-10 rounded-2xl shadow-2xl overflow-auto p-2"
           : "fixed z-40 bg-purple-300 w-[60%] h-[80%] top-10 rounded-2xl shadow-2xl overflow-auto p-2"
       }`}
     >
-      <Divider mt="mt-4" />
-
-      {type === ModelType.ADD ? (
+      {model.type === ModelType.ADD ? (
         <div>
           {saveMovie ? (
             <div>
@@ -185,10 +186,33 @@ function PopUpModel({ handleShowModel, submitMovieHandler, type }) {
             </div>
           )}
         </div>
-      ) : type === ModelType.UPDATE ? (
+      ) : model.type === ModelType.UPDATE ? (
         <div>Modification</div>
-      ) : type === ModelType.ALL ? (
-        <div>ALL</div>
+      ) : model.type === ModelType.ALL ? (
+        <div>
+          {saveMovie ? (
+            <div>
+              <SpinnerBaseColorPinkFourth />
+              <h3>Loading...</h3>
+            </div>
+          ) : (
+           <MovieDetails model={model}/>
+          )}
+
+          {saveMovie ? (
+            <></>
+          ) : (
+            <div
+              onClick={() => {
+                handleShowModel("");
+              }}
+              className="absolute right-0 top-0 p-1 cursor-pointer"
+            >
+              <CircleX size={30} color="#ffffff" />
+            </div>
+          )}
+        </div>
+        
       ) : (
         <></>
       )}

@@ -1,6 +1,8 @@
-import { Star } from "lucide-react";
+import { ScanEye, Star } from "lucide-react";
 import Text from "../Text";
 import Overlay from "./Overlay";
+import Button from "../Button";
+import { ModelType } from "../../utilities/modelPopUpModel";
 
 function TopMovie({
   id,
@@ -15,11 +17,12 @@ function TopMovie({
   note,
   activeId,
   setActiveId,
+  handleShowModel,
 }) {
   return (
     <>
       <div
-        className="cursor-pointer relative h-48 overflow-hidden"
+        className="cursor-pointer relative  overflow-hidden transition duration-300 ease-in-out h-48"
         onMouseEnter={() => setActiveId(id)}
         onMouseLeave={() => setActiveId(null)}
       >
@@ -37,6 +40,8 @@ function TopMovie({
             alt="image"
           />
         )}
+
+        {/* //z-20 */}
         <Overlay />
         <div className="absolute inset-0 z-20 flex flex-col items-start justify-end p-2">
           <Text text={titre} style={"text-white font-semibold"} />
@@ -48,6 +53,29 @@ function TopMovie({
               );
             })}
           </div>
+        </div>
+
+        <div className="absolute z-50 p-2 top-0 right-0">
+          <Button
+            onClick={() => {
+              handleShowModel(ModelType.ALL, {
+                id,
+                titre,
+                description,
+                annee_de_sortie,
+                genre,
+                realisateur,
+                acteurs_principaux,
+                image,
+                trailer,
+                note,
+              });
+            }}
+            style="cursor-pointer shadow bg-purple-400 flex gap-2 p-2 justify-center items-center rounded-md"
+          >
+            <ScanEye color="white" size={16} />
+            <Text text="See" style={"text-white font-light"} />
+          </Button>
         </div>
       </div>
     </>
